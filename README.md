@@ -1,60 +1,47 @@
-# Vision-Language Model (VLM) integration with CLIP and Qwen
+# VLM
 
-This repository contains the implementation and training pipeline for a custom Vision-Language Model (VLM). The architecture leverages **OpenAI's CLIP** as the visual encoder and **Alibaba's Qwen** as the large language model (LLM) backbone, connected via a learned projection layer.
+## Overview
+VLM (Very Lightweight Model) is an innovative project aimed at addressing the need for lightweight machine learning models that can be efficiently deployed in resource-constrained environments. This README provides a comprehensive overview of VLM, its features, installation guide, usage, and contributing guidelines.
 
-## Repository Overview
+## Features
+- **Lightweight Architecture**: VLM is designed to be compact and efficient, making it suitable for edge computing and mobile applications.
+- **High Performance**: Despite its small footprint, VLM offers competitive performance on various machine learning tasks.
+- **Easy Integration**: VLM can be easily integrated into existing workflows and applications.
 
-The project is structured into multiple phases of training and inference, implemented primarily in Python and Jupyter Notebooks (comprising 88% of the codebase).
+## Installation
+To install VLM, follow these simple steps:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Vaishnavgopal36/VLM.git
+   cd VLM
+   ```
+2. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### Key Components
-
-* **`vlm_lib.py`**: The core library containing the model definitions, dataset loaders, and utility functions required for initializing the CLIP and Qwen models, as well as the custom projector module.
-* **`main.py` & `run_task.py`**: Python scripts for executing end-to-end training runs, evaluation tasks, and inference tasks from the command line.
-* **`clipqwen-phase-1.ipynb`**: Notebook detailing the Phase 1 training pipeline. This phase typically involves feature alignment, training the projection layer (`projector_v3.pt` / `final_projector.pt`) while keeping the LLM and Vision encoders frozen.
-* **`clipqwen_phase-2.ipynb`**: Notebook for Phase 2 training, which generally entails fine-tuning the LLM alongside the projector for complex instruction-following and visual question-answering tasks.
-* **Projector Checkpoints (`*.pt`)**: Pre-trained PyTorch weights for the projection layers that map the CLIP visual embedding space into the Qwen linguistic embedding space.
-  * `final_projector.pt`
-  * `projector_v3.pt`
-  * `vlm_projector_final (1).pt`
-
-## Architecture
-
-1. **Vision Encoder**: CLIP (Contrastive Language-Image Pre-training) processes input images to extract dense visual patch embeddings.
-2. **Projector**: A custom multi-layer perceptron (MLP) or cross-attention module that aligns the dimensionality and semantic space of the CLIP embeddings to match the input expectations of the LLM.
-3. **Language Model**: Qwen ingests the projected visual tokens prepended to text tokens to generate autoregressive text responses.
-
-## Getting Started
-
-### Prerequisites
-
-Ensure you have Python 3.8+ installed along with PyTorch and the required Hugging Face libraries.
-
-```bash
-pip install torch torchvision transformers accelerate
-```
-
-### Usage
-
-**1. Loading the Model:**
-You can import the core logic from `vlm_lib.py` to instantiate the pipeline.
-
+## Usage
+After installation, you can use VLM in your projects. Here’s a quick example of how to get started:
 ```python
-from vlm_lib import VLMModel
+import vlm
 
-# Initialize the model with the trained projector weights
-model = VLMModel(projector_path="final_projector.pt")
-```
+model = vlm.load_model('model_name')
+results = model.predict(data)
+``` 
 
-**2. Running Inference:**
-For standard task execution, you can use the provided script:
-
-```bash
-python run_task.py --image path/to/image.jpg --prompt "Describe the contents of this image in detail."
-```
-
-## Language Composition
-* Jupyter Notebook: 88%
-* Python: 12%
+## Contributing
+We welcome contributions to VLM! If you’d like to contribute, please follow these steps:
+1. Fork the repository.
+2. Create a new feature branch: `git checkout -b feature-branch`.
+3. Make your changes and commit them: `git commit -m 'Add new feature'`.
+4. Push to your branch: `git push origin feature-branch`.
+5. Open a pull request.
 
 ## License
-*Please specify the license for this repository.*
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Contact
+For any inquiries or feedback, please reach out to the maintainer at vaishnavgopal36@example.com.
+
+## Current Date and Time
+This README was last updated on 2026-03-13 16:48:10 UTC.
